@@ -1,0 +1,277 @@
+###################################################################
+#  A/B ТЕСТ WARP через Xray
+#    A = wireguard + noise-обфускация (dialerProxy -> noise-out)
+#    B = КОНТРОЛЬ: тот же WARP, но чистый WireGuard без noises
+#  Дата запуска : 2026-09-16 02:04:59 +0300
+#  Хост         : <host> / Linux 6.18.49-1-MANJARO
+#  Xray         : Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 linux/amd64)
+#  curl         : curl 8.22.0 (x86_64-pc-linux-gnu) libcurl/8.22.0 OpenSSL/3.6.4 zlib/1.3.2 brotli/1.2.0 zstd/1.5.7 libidn2/2.3.8 libpsl/0.21.5 libssh2/1.11.1 nghttp2/1.70.0 ngtcp2/1.25.0 nghttp3/1.18.0 mit-krb5/1.22.2
+#  Конфиг A     : ./warp-xray.json
+#  Конфиг B     : <tmp>/warp-noobf.json (генерируется из A автоматически)
+#  trace URL    : https://www.cloudflare.com/cdn-cgi/trace  (БЕЗ завершающего слеша — иначе 404)
+#  Режим        : обычный (оба инстанса гасятся)
+###################################################################
+
+===================================================================
+== 1. СОСТОЯНИЕ СЕТИ ДО ЗАПУСКА
+===================================================================
+[02:04:59] Интерфейсы (кроме DOWN):
+    lo               UNKNOWN        127.0.0.1/8 ::1/128 
+    wlo1             UP             192.168.0.15/24 fe80::3005:241a:565c:162b/64 
+[02:04:59] Таблица маршрутов (main):
+    default via 192.168.0.1 dev wlo1 proto dhcp src 192.168.0.15 metric 600 
+    192.168.0.0/24 dev wlo1 proto kernel scope link src 192.168.0.15 metric 600 
+    192.168.100.0/24 dev docker0 proto kernel scope link src 192.168.100.1 linkdown 
+[02:04:59] Дефолтный шлюз: default via 192.168.0.1 dev wlo1 proto dhcp src 192.168.0.15 metric 600 
+[02:04:59] ip rule (для контроля, что policy-routing VPN не активен):
+    0:	from all lookup local
+    32766:	from all lookup main
+    32767:	from all lookup default
+[02:04:59] OK: интерфейса throne-tun НЕТ (VPN пользователя выключен)
+[02:04:59] Признаков активного VPN пользователя не найдено — тест валиден.
+
+===================================================================
+== 2. ПОРТЫ И КОНФИГИ
+===================================================================
+[02:04:59] OK: порт 10808 свободен
+[02:04:59] OK: порт 10809 свободен
+[02:04:59] OK: порт 10818 свободен
+[02:04:59] OK: порт 10819 свободен
+[02:04:59] Генерирую конфиг B (контроль без обфускации) из A программно:
+    конфиг B записан: <tmp>/warp-noobf.json
+    аутбаунды B: warp/wireguard
+    streamSettings у wireguard: НЕТ (ок)
+[02:04:59] OK: в конфиге B нет ни dialerProxy, ни noises (чистый WireGuard)
+[02:04:59] Проверка конфига A (xray run -test):
+[02:04:59] OK: конфиг A валиден
+[02:04:59] Проверка конфига B (xray run -test):
+[02:04:59] OK: конфиг B валиден
+
+===================================================================
+== 3. ЗАПУСК ВАРИАНТА A (с обфускацией, socks 10808)
+===================================================================
+[02:04:59] Команда: xray run -c ./warp-xray.json  (лог -> ./xray-A.log)
+[02:04:59] PID(A) = 211549 (записан в ./xray-A.pid). Ждём 5 с на старт...
+[02:05:04] OK: процесс xray-A жив
+[02:05:04] OK: socks-порт 10808 слушается
+
+===================================================================
+== 4. ТЕСТ A: ПРОВЕРКИ ЧЕРЕЗ SOCKS socks5h://127.0.0.1:10808
+===================================================================
+[02:05:04] --- 4.1 ГЛАВНЫЙ ТЕСТ: cloudflare cdn-cgi/trace ---
+    fl=904f139
+    h=www.cloudflare.com
+    ip=104.28.198.244
+    ts=1789513505.000
+    visit_scheme=https
+    uag=curl/8.22.0
+    colo=DME
+    sliver=none
+    http=http/2
+    loc=RU
+    tls=TLSv1.3
+    sni=plaintext
+    warp=on
+    gateway=off
+    rbi=off
+    kex=X25519MLKEM768
+    
+    __HTTP=200
+[02:05:05] curl rc=0, http_code=200
+[02:05:05] OK: HTTP 200, warp=on — трафик идёт ЧЕРЕЗ WARP
+[02:05:05] --- 4.2 Внешний IPv4 ---
+[02:05:05] OK: внешний IPv4 = 104.28.198.244
+[02:05:05] --- 4.3 Внешний IPv6 (не критично) ---
+[02:05:05] OK: внешний IPv6 = 2a09:bac1:61e0::388:8b
+[02:05:05] --- 4.4 UDP через SOCKS (DNS-запрос к 1.1.1.1:53 через UDP ASSOCIATE) ---
+    UDP relay: 127.0.0.1:10808
+    OK: UDP ходит через SOCKS, DNS cloudflare.com -> 2 A-записей (rcode=0)
+[02:05:05] OK: UDP через прокси работает (значит WireGuard-UDP наружу проходит)
+[02:05:05] --- 4.5 Задержка: 5 запросов к cdn-cgi/trace ---
+[02:05:05]   попытка 1: OK  http=200  time_total=0.053645s
+[02:05:05]   попытка 2: OK  http=200  time_total=0.051246s
+[02:05:05]   попытка 3: OK  http=200  time_total=0.044573s
+[02:05:05]   попытка 4: OK  http=200  time_total=0.050834s
+[02:05:05]   попытка 5: OK  http=200  time_total=0.044488s
+[02:05:05] Средняя задержка: 0.049 s (среднее по 5)
+[02:05:05] --- 4.6 Скорость: скачивание 10 МБ ---
+[02:05:07] OK: 6.42 MB/s (53.9 Мбит/с), 9.5 МБ за 1.49 s
+
+===================================================================
+== 5. ТЕСТ A: СТАБИЛЬНОСТЬ 2 мин 40 с, запрос каждые 20 с (9 попыток)
+===================================================================
+    Цель — поймать разрыв на рехендшейке WireGuard (~каждые 2 минуты).
+    noise-пакеты Xray отправляет только один раз при создании сокета,
+    поэтому ТСПУ может переклассифицировать флоу и срезать его позже.
+    Статусы: OK = warp=on;  FAIL = туннель не ответил / не через WARP;
+             BAD = HTTP != 200 (проблема самого теста, не туннеля).
+
+    №   время      статус  http  warp=   time_total  прошло
+    ------------------------------------------------------------
+    1   02:05:07  OK      200   on      0.085162    0s
+    2   02:05:27  OK      200   on      0.061376    20s
+    3   02:05:47  OK      200   on      0.072955    40s
+    4   02:06:07  OK      200   on      0.053294    60s
+    5   02:06:27  OK      200   on      0.056410    80s
+    6   02:06:47  OK      200   on      0.062112    100s
+    7   02:07:07  OK      200   on      0.048064    120s
+    8   02:07:28  OK      200   on      0.063057    140s
+    9   02:07:48  OK      200   on      0.077603    161s
+    ------------------------------------------------------------
+[02:07:48] Итог стабильности A: OK=9, FAIL=0, BAD=0 из 9 (длительность 161s)
+[02:07:48] РАЗРЫВОВ НЕ БЫЛО — туннель A прожил 161s без потерь
+
+===================================================================
+== 6. ОСТАНОВКА ВАРИАНТА A ПЕРЕД КОНТРОЛЬНЫМ ТЕСТОМ B
+===================================================================
+[02:07:48] Гашу xray-A (PID 211549) через SIGTERM
+[02:07:48] OK: процесс xray-A (211549) мёртв
+[02:07:48] OK: порт 10808 освободился
+
+===================================================================
+== 7. ТЕСТ B (КОНТРОЛЬ): чистый WireGuard без noises, socks 10818
+===================================================================
+    Ожидание: если ТСПУ режет WireGuard по протокольной сигнатуре,
+    хендшейк уйдёт ('Sending handshake initiation'), но ответа
+    ('Received handshake response') НЕ будет -> trace не ответит.
+
+[02:07:48] Команда: xray run -c <tmp>/warp-noobf.json  (лог -> ./xray-B.log)
+[02:07:48] PID(B) = 213461 (записан в ./xray-B.pid). Ждём 5 с на старт...
+[02:07:53] OK: процесс xray-B жив, socks-порт 10818 слушается
+
+    До 60 с: 4 попытки по --max-time 15 через socks5h://127.0.0.1:10818
+    №   время      статус  http  warp=   time_total
+    ------------------------------------------------------
+    1   02:08:08  FAIL    000   —     15.001142 
+    2   02:08:23  FAIL    000   —     15.001852 
+    3   02:08:38  FAIL    000   —     15.001725 
+    4   02:08:53  FAIL    000   —     15.001772 
+    ------------------------------------------------------
+[02:08:53] Хендшейки в ./xray-B.log:
+    Sending handshake initiation  : 10
+    Received handshake response   : 1
+    handshake did not complete    : 8
+    строки про хендшейк (до 20):
+    2026/09/16 02:07:53.660146 [Debug] Routine: handshake worker 1 - started
+    2026/09/16 02:07:53.660160 [Debug] Routine: handshake worker 2 - started
+    2026/09/16 02:07:53.660163 [Debug] Routine: handshake worker 8 - started
+    2026/09/16 02:07:53.660170 [Debug] Routine: handshake worker 4 - started
+    2026/09/16 02:07:53.660173 [Debug] Routine: handshake worker 9 - started
+    2026/09/16 02:07:53.660201 [Debug] Routine: handshake worker 7 - started
+    2026/09/16 02:07:53.660253 [Debug] Routine: handshake worker 11 - started
+    2026/09/16 02:07:53.660258 [Debug] Routine: handshake worker 10 - started
+    2026/09/16 02:07:53.660269 [Debug] Routine: handshake worker 6 - started
+    2026/09/16 02:07:53.660275 [Debug] Routine: handshake worker 12 - started
+    2026/09/16 02:07:53.660288 [Debug] Routine: handshake worker 5 - started
+    2026/09/16 02:07:53.660373 [Debug] Routine: handshake worker 3 - started
+    2026/09/16 02:07:53.660810 [Debug] peer(bmXO…fgyo) - Sending handshake initiation
+    2026/09/16 02:07:53.755851 [Debug] peer(bmXO…fgyo) - Received handshake response
+    2026/09/16 02:08:08.937761 [Debug] peer(bmXO…fgyo) - Retrying handshake because we stopped hearing back after 15 seconds
+    2026/09/16 02:08:08.937793 [Debug] peer(bmXO…fgyo) - Sending handshake initiation
+    2026/09/16 02:08:14.239195 [Debug] peer(bmXO…fgyo) - Handshake did not complete after 5 seconds, retrying (try 2)
+    2026/09/16 02:08:14.239236 [Debug] peer(bmXO…fgyo) - Sending handshake initiation
+    2026/09/16 02:08:19.407279 [Debug] peer(bmXO…fgyo) - Handshake did not complete after 5 seconds, retrying (try 3)
+    2026/09/16 02:08:19.407320 [Debug] peer(bmXO…fgyo) - Sending handshake initiation
+[02:08:53] B ПРОВАЛИЛСЯ: ПРОВАЛ (хендшейк прошёл, данные нет)
+
+===================================================================
+== 8. ОСТАНОВКА ВАРИАНТА B
+===================================================================
+[02:08:53] Гашу xray-B (PID 213461) через SIGTERM
+[02:08:54] OK: процесс xray-B (213461) мёртв
+[02:08:54] OK: порт 10818 освободился
+
+===================================================================
+== 9. РАЗБОР ЛОГОВ
+===================================================================
+[02:08:54] --- 9.1 Лог A (./xray-A.log, 1350 строк) ---
+    Sending handshake initiation  : 2
+    Received handshake response   : 2
+    handshake did not complete    : 0
+    grep -Ei 'handshake|keepalive|failed|timeout|error|rejected' (до 30 строк):
+    2026/09/16 02:05:04.989293 [Debug] Routine: handshake worker 1 - started
+    2026/09/16 02:05:04.989307 [Debug] Routine: handshake worker 2 - started
+    2026/09/16 02:05:04.989319 [Debug] Routine: handshake worker 4 - started
+    2026/09/16 02:05:04.989325 [Debug] Routine: handshake worker 3 - started
+    2026/09/16 02:05:04.989344 [Debug] Routine: handshake worker 9 - started
+    2026/09/16 02:05:04.989348 [Debug] Routine: handshake worker 5 - started
+    2026/09/16 02:05:04.989350 [Debug] Routine: handshake worker 10 - started
+    2026/09/16 02:05:04.989367 [Debug] Routine: handshake worker 6 - started
+    2026/09/16 02:05:04.989369 [Debug] Routine: handshake worker 11 - started
+    2026/09/16 02:05:04.989372 [Debug] Routine: handshake worker 7 - started
+    2026/09/16 02:05:04.989408 [Debug] Routine: handshake worker 8 - started
+    2026/09/16 02:05:04.989411 [Debug] Routine: handshake worker 12 - started
+    2026/09/16 02:05:04.989835 [Debug] peer(bmXO…fgyo) - Sending handshake initiation
+    2026/09/16 02:05:05.184668 [Debug] peer(bmXO…fgyo) - Received handshake response
+    2026/09/16 02:05:17.522631 [Debug] peer(bmXO…fgyo) - Sending keepalive packet
+    2026/09/16 02:05:37.566505 [Debug] peer(bmXO…fgyo) - Sending keepalive packet
+    2026/09/16 02:05:57.682106 [Debug] peer(bmXO…fgyo) - Sending keepalive packet
+    2026/09/16 02:07:05.538434 [Info] [3951297657] transport/internet/udp: failed to handle UDP input > io: read/write on closed pipe
+    2026/09/16 02:07:07.878728 [Debug] peer(bmXO…fgyo) - Sending handshake initiation
+    2026/09/16 02:07:07.889101 [Debug] peer(bmXO…fgyo) - Received handshake response
+    2026/09/16 02:07:07.889128 [Debug] peer(bmXO…fgyo) - Sending keepalive packet
+    2026/09/16 02:07:38.189278 [Debug] peer(bmXO…fgyo) - Sending keepalive packet
+[02:08:54] --- 9.2 Лог B (./xray-B.log, 173 строк) ---
+    Sending handshake initiation  : 10
+    Received handshake response   : 1
+    handshake did not complete    : 8
+    grep -Ei 'handshake|keepalive|failed|timeout|error|rejected' (до 30 строк):
+    2026/09/16 02:07:53.660146 [Debug] Routine: handshake worker 1 - started
+    2026/09/16 02:07:53.660160 [Debug] Routine: handshake worker 2 - started
+    2026/09/16 02:07:53.660163 [Debug] Routine: handshake worker 8 - started
+    2026/09/16 02:07:53.660170 [Debug] Routine: handshake worker 4 - started
+    2026/09/16 02:07:53.660173 [Debug] Routine: handshake worker 9 - started
+    2026/09/16 02:07:53.660201 [Debug] Routine: handshake worker 7 - started
+    2026/09/16 02:07:53.660253 [Debug] Routine: handshake worker 11 - started
+    2026/09/16 02:07:53.660258 [Debug] Routine: handshake worker 10 - started
+    2026/09/16 02:07:53.660269 [Debug] Routine: handshake worker 6 - started
+    2026/09/16 02:07:53.660275 [Debug] Routine: handshake worker 12 - started
+    2026/09/16 02:07:53.660288 [Debug] Routine: handshake worker 5 - started
+    2026/09/16 02:07:53.660373 [Debug] Routine: handshake worker 3 - started
+    2026/09/16 02:07:53.660810 [Debug] peer(bmXO…fgyo) - Sending handshake initiation
+    2026/09/16 02:07:53.755851 [Debug] peer(bmXO…fgyo) - Received handshake response
+    2026/09/16 02:08:08.937761 [Debug] peer(bmXO…fgyo) - Retrying handshake because we stopped hearing back after 15 seconds
+    2026/09/16 02:08:08.937793 [Debug] peer(bmXO…fgyo) - Sending handshake initiation
+    2026/09/16 02:08:14.239195 [Debug] peer(bmXO…fgyo) - Handshake did not complete after 5 seconds, retrying (try 2)
+    2026/09/16 02:08:14.239236 [Debug] peer(bmXO…fgyo) - Sending handshake initiation
+    2026/09/16 02:08:19.407279 [Debug] peer(bmXO…fgyo) - Handshake did not complete after 5 seconds, retrying (try 3)
+    2026/09/16 02:08:19.407320 [Debug] peer(bmXO…fgyo) - Sending handshake initiation
+    2026/09/16 02:08:24.486307 [Debug] peer(bmXO…fgyo) - Handshake did not complete after 5 seconds, retrying (try 4)
+    2026/09/16 02:08:24.486336 [Debug] peer(bmXO…fgyo) - Sending handshake initiation
+    2026/09/16 02:08:24.961245 [Debug] peer(bmXO…fgyo) - Retrying handshake because we stopped hearing back after 15 seconds
+    2026/09/16 02:08:27.690251 [Info] app/dns: failed to lookup ip for domain www.cloudflare.com at server UDP:1.1.1.1:53 in serial query mode > app/dns: record not found
+    2026/09/16 02:08:29.739500 [Debug] peer(bmXO…fgyo) - Handshake did not complete after 5 seconds, retrying (try 2)
+    2026/09/16 02:08:29.739541 [Debug] peer(bmXO…fgyo) - Sending handshake initiation
+    2026/09/16 02:08:31.691135 [Info] app/dns: failed to lookup ip for domain www.cloudflare.com at server UDP:1.0.0.1:53 in serial query mode > app/dns: record not found
+    2026/09/16 02:08:34.912244 [Debug] peer(bmXO…fgyo) - Handshake did not complete after 5 seconds, retrying (try 3)
+    2026/09/16 02:08:34.912292 [Debug] peer(bmXO…fgyo) - Sending handshake initiation
+    2026/09/16 02:08:35.692300 [Info] app/dns: failed to lookup ip for domain www.cloudflare.com at server UDP:[2606:4700:4700::1111]:53 in serial query mode > app/dns: record not found
+
+===================================================================
+== 10. ЗАВЕРШЕНИЕ
+===================================================================
+[02:08:54] Проверка, что ничего не осталось:
+[02:08:54] OK: порт 10808 свободен
+[02:08:54] OK: порт 10809 свободен
+[02:08:54] OK: порт 10818 свободен
+[02:08:54] OK: порт 10819 свободен
+[02:08:54] OK: процессов 'xray run' в системе не осталось
+
+===================================================================
+== ИТОГ
+===================================================================
+1) ВАРИАНТ A (с обфускацией): РАБОТАЕТ — OK (warp=on), внешний IPv4 OK (104.28.198.244).
+2) A СТАБИЛЕН: 161s, 9/9 успешных, разрывов нет
+   -> рехендшейк (хендшейков в логе A: отправлено 2, ответов 2) пережит.
+3) ВАРИАНТ B (контроль, чистый WireGuard без обфускации): ПРОВАЛ (хендшейк прошёл, данные нет)
+   отправлено 10, получено ответов 1, но trace не ответил (last curl rc=28, http=000) — похоже на срез флоу после установления
+4) ВЫВОД ПРО ОБФУСКАЦИЮ:
+   A работает, B (без обфускации) провалился ->
+   ТСПУ РЕЖЕТ ЧИСТЫЙ WIREGUARD. ОБФУСКАЦИЯ НЕОБХОДИМА, И ОНА РАБОТАЕТ.
+   Ключевой признак: в логе B хендшейк уходил (10 раз), ответа не было (1).
+5) Задержка A: 0.049 s (среднее по 5).  Скорость A: 6.42 MB/s (53.9 Мбит/с), 9.5 МБ за 1.49 s.
+6) UDP через прокси (A): OK.  IPv6 (A): OK (2a09:bac1:61e0::388:8b).
+7) Файлы: отчёт ./test-report.txt ; лог A ./xray-A.log ; лог B ./xray-B.log
+   Конфиг B (временный): <tmp>/warp-noobf.json
+
+[02:08:54] Готово.
