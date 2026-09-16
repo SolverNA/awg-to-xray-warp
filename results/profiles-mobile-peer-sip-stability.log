@@ -1,0 +1,99 @@
+2026/09/17 00:51:21.638407 [Info] infra/conf/serial: Reading config: &{Name:/tmp/prof-peer-sip.json Format:json}
+2026/09/17 00:51:21.640071 [Debug] app/log: Logger started
+2026/09/17 00:51:21.644086 [Info] transport/internet/tcp: listening TCP on 127.0.0.1:10808
+2026/09/17 00:51:21.644178 [Info] transport/internet/udp: listening UDP on 127.0.0.1:10808
+2026/09/17 00:51:21.644182 [Info] transport/internet/tcp: listening TCP on 127.0.0.1:10809
+2026/09/17 00:51:21.644185 [Warning] core: Xray 26.3.27 started
+2026/09/17 00:51:26.637532 [Warning] proxy/wireguard: Using gVisor TUN. Kernel TUN is not supported on your OS, or your permission is insufficient.
+2026/09/17 00:51:26.637986 [Debug] UAPI: Updating private key
+2026/09/17 00:51:26.637994 [Debug] Routine: decryption worker 2 - started
+2026/09/17 00:51:26.637995 [Debug] Routine: decryption worker 5 - started
+2026/09/17 00:51:26.637996 [Debug] Routine: encryption worker 1 - started
+2026/09/17 00:51:26.637997 [Debug] Routine: decryption worker 1 - started
+2026/09/17 00:51:26.637998 [Debug] Routine: decryption worker 9 - started
+2026/09/17 00:51:26.637999 [Debug] Routine: handshake worker 2 - started
+2026/09/17 00:51:26.638000 [Debug] Routine: handshake worker 1 - started
+2026/09/17 00:51:26.638000 [Debug] Routine: handshake worker 5 - started
+2026/09/17 00:51:26.638001 [Debug] Routine: encryption worker 3 - started
+2026/09/17 00:51:26.638002 [Debug] Routine: encryption worker 2 - started
+2026/09/17 00:51:26.638003 [Debug] Routine: decryption worker 3 - started
+2026/09/17 00:51:26.638003 [Debug] Routine: encryption worker 6 - started
+2026/09/17 00:51:26.638004 [Debug] Routine: decryption worker 11 - started
+2026/09/17 00:51:26.638005 [Debug] Routine: handshake worker 3 - started
+2026/09/17 00:51:26.638005 [Debug] Routine: decryption worker 6 - started
+2026/09/17 00:51:26.638006 [Debug] Routine: handshake worker 9 - started
+2026/09/17 00:51:26.638007 [Debug] Routine: encryption worker 4 - started
+2026/09/17 00:51:26.638008 [Debug] Routine: decryption worker 4 - started
+2026/09/17 00:51:26.638008 [Debug] Routine: handshake worker 4 - started
+2026/09/17 00:51:26.638009 [Debug] Routine: handshake worker 6 - started
+2026/09/17 00:51:26.638010 [Debug] Routine: encryption worker 5 - started
+2026/09/17 00:51:26.638010 [Debug] Routine: encryption worker 7 - started
+2026/09/17 00:51:26.638011 [Debug] Routine: decryption worker 8 - started
+2026/09/17 00:51:26.638012 [Debug] Routine: handshake worker 8 - started
+2026/09/17 00:51:26.638012 [Debug] Routine: encryption worker 10 - started
+2026/09/17 00:51:26.638013 [Debug] Routine: encryption worker 9 - started
+2026/09/17 00:51:26.638014 [Debug] Routine: decryption worker 10 - started
+2026/09/17 00:51:26.638014 [Debug] Routine: handshake worker 10 - started
+2026/09/17 00:51:26.638015 [Debug] Routine: encryption worker 8 - started
+2026/09/17 00:51:26.638016 [Debug] Routine: decryption worker 12 - started
+2026/09/17 00:51:26.638025 [Debug] Routine: encryption worker 11 - started
+2026/09/17 00:51:26.638026 [Debug] Routine: decryption worker 7 - started
+2026/09/17 00:51:26.638027 [Debug] Routine: handshake worker 11 - started
+2026/09/17 00:51:26.638028 [Debug] Routine: handshake worker 7 - started
+2026/09/17 00:51:26.638029 [Debug] Routine: encryption worker 12 - started
+2026/09/17 00:51:26.638031 [Debug] Routine: handshake worker 12 - started
+2026/09/17 00:51:26.638032 [Debug] Routine: event worker - started
+2026/09/17 00:51:26.638034 [Debug] Routine: TUN reader - started
+2026/09/17 00:51:26.638036 [Debug] proxy/wireguard: bind closed
+2026/09/17 00:51:26.638037 [Debug] proxy/wireguard: bind opened
+2026/09/17 00:51:26.638160 [Debug] peer(bmXO…fgyo) - UAPI: Created
+2026/09/17 00:51:26.638161 [Debug] peer(bmXO…fgyo) - UAPI: Updating endpoint
+2026/09/17 00:51:26.638162 [Debug] peer(bmXO…fgyo) - UAPI: Adding allowedip
+2026/09/17 00:51:26.638163 [Debug] peer(bmXO…fgyo) - UAPI: Adding allowedip
+2026/09/17 00:51:26.638163 [Debug] peer(bmXO…fgyo) - UAPI: Updating persistent keepalive interval
+2026/09/17 00:51:26.638164 [Debug] peer(bmXO…fgyo) - Starting
+2026/09/17 00:51:26.638165 [Debug] peer(bmXO…fgyo) - Sending keepalive packet
+2026/09/17 00:51:26.638165 [Debug] peer(bmXO…fgyo) - Sending handshake initiation
+2026/09/17 00:51:26.638184 [Debug] UDP bind has been updated
+2026/09/17 00:51:26.638196 [Debug] Routine: receive incoming Open - started
+2026/09/17 00:51:26.638200 [Debug] Routine: receive incoming Open - started
+2026/09/17 00:51:26.638204 [Debug] Routine: receive incoming Open - started
+2026/09/17 00:51:26.638208 [Debug] Routine: receive incoming Open - started
+2026/09/17 00:51:26.638214 [Debug] Routine: receive incoming Open - started
+2026/09/17 00:51:26.638218 [Debug] Routine: receive incoming Open - started
+2026/09/17 00:51:26.638237 [Debug] Routine: receive incoming Open - started
+2026/09/17 00:51:26.638242 [Debug] Routine: receive incoming Open - started
+2026/09/17 00:51:26.638244 [Debug] peer(bmXO…fgyo) - Routine: sequential sender - started
+2026/09/17 00:51:26.638246 [Debug] Routine: receive incoming Open - started
+2026/09/17 00:51:26.638247 [Debug] Routine: receive incoming Open - started
+2026/09/17 00:51:26.638249 [Debug] Routine: receive incoming Open - started
+2026/09/17 00:51:26.638250 [Debug] Routine: receive incoming Open - started
+2026/09/17 00:51:26.638281 [Debug] peer(bmXO…fgyo) - Routine: sequential receiver - started
+2026/09/17 00:51:26.638517 [Debug] transport/internet/udp: dispatch request to: udp:1.1.1.1:53
+2026/09/17 00:51:26.638520 [Info] transport/internet/udp: establishing new connection for udp:1.1.1.1:53
+2026/09/17 00:51:26.638530 [Debug] transport/internet/udp: dispatch request to: udp:1.1.1.1:53
+2026/09/17 00:51:30.642540 [Debug] transport/internet/udp: dispatch request to: udp:1.0.0.1:53
+2026/09/17 00:51:30.642542 [Info] transport/internet/udp: establishing new connection for udp:1.0.0.1:53
+2026/09/17 00:51:30.642544 [Debug] transport/internet/udp: dispatch request to: udp:1.0.0.1:53
+2026/09/17 00:51:31.638790 [Debug] peer(bmXO…fgyo) - Sending handshake initiation
+2026/09/17 00:51:34.643412 [Debug] transport/internet/udp: dispatch request to: udp:[2606:4700:4700::1111]:53
+2026/09/17 00:51:34.643415 [Info] transport/internet/udp: establishing new connection for udp:[2606:4700:4700::1111]:53
+2026/09/17 00:51:34.643417 [Debug] transport/internet/udp: dispatch request to: udp:[2606:4700:4700::1111]:53
+2026/09/17 00:51:36.640487 [Debug] peer(bmXO…fgyo) - Sending handshake initiation
+2026/09/17 00:51:38.644644 [Debug] transport/internet/udp: dispatch request to: udp:[2606:4700:4700::1001]:53
+2026/09/17 00:51:38.644647 [Info] transport/internet/udp: establishing new connection for udp:[2606:4700:4700::1001]:53
+2026/09/17 00:51:38.644650 [Debug] transport/internet/udp: dispatch request to: udp:[2606:4700:4700::1001]:53
+2026/09/17 00:51:41.641396 [Debug] peer(bmXO…fgyo) - Sending handshake initiation
+2026/09/17 00:51:42.645726 [Info] [3859564598] app/proxyman/outbound: app/proxyman/outbound: failed to process outbound traffic > proxy/wireguard: failed to lookup DNS > app/dns: returning nil for domain www.cloudflare.com > app/dns: record not found
+2026/09/17 00:51:43.647235 [Debug] transport/internet/udp: dispatch request to: udp:1.1.1.1:53
+2026/09/17 00:51:43.647244 [Debug] transport/internet/udp: dispatch request to: udp:1.1.1.1:53
+2026/09/17 00:51:46.643864 [Debug] peer(bmXO…fgyo) - Sending handshake initiation
+2026/09/17 00:51:47.647457 [Debug] transport/internet/udp: dispatch request to: udp:1.0.0.1:53
+2026/09/17 00:51:47.647463 [Debug] transport/internet/udp: dispatch request to: udp:1.0.0.1:53
+2026/09/17 00:51:51.644918 [Debug] peer(bmXO…fgyo) - Sending handshake initiation
+2026/09/17 00:51:51.648105 [Debug] transport/internet/udp: dispatch request to: udp:[2606:4700:4700::1111]:53
+2026/09/17 00:51:51.648107 [Debug] transport/internet/udp: dispatch request to: udp:[2606:4700:4700::1111]:53
+2026/09/17 00:51:55.651449 [Debug] transport/internet/udp: dispatch request to: udp:[2606:4700:4700::1001]:53
+2026/09/17 00:51:55.651451 [Debug] transport/internet/udp: dispatch request to: udp:[2606:4700:4700::1001]:53
+2026/09/17 00:51:56.645962 [Debug] peer(bmXO…fgyo) - Sending handshake initiation
+2026/09/17 00:51:58.655286 [Debug] app/log: Logger closing

@@ -1,0 +1,7 @@
+ref-quic	1	OK	0.227s	3.80 MB/s	1	1	-
+peer-sip	1	FAIL	-	-	7	0	-
+gen-sip	1	FAIL	-	-	7	0	-
+gen-quic	1	OK	0.238s	3.60 MB/s	1	1	-
+old-sip	1	FAIL	-	-	7	0	-
+ref-quic	2(стаб)	OK	0.195s	2.90 MB/s	2	2	OK=8/FAIL=0
+peer-sip	2(стаб)	FAIL	-	-	7	0	-
