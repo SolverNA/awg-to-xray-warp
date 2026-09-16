@@ -2,3 +2,4 @@
 *.tmp
 *.rawlog
 nohup.out
+__pycache__/
