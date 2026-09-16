@@ -1,0 +1,79 @@
+# NOTE: log filtered for publication — only Xray startup and WireGuard transport/handshake events are kept.
+# Variant 5: SIP I1+I2 (RFC3261) + 4xrand40-70 | 8.6.112.7:946    | MTU 1420 | ключ p1Fqp  [ожидается FAIL]
+Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 linux/amd64)
+A unified platform for anti-censorship.
+2026/09/16 12:11:11.820365 [Info] infra/conf/serial: Reading config: &{Name:/tmp/mgf-5.json Format:json}
+2026/09/16 12:11:11.822184 [Debug] app/log: Logger started
+2026/09/16 12:11:11.824933 [Info] transport/internet/tcp: listening TCP on 127.0.0.1:10808
+2026/09/16 12:11:11.824997 [Info] transport/internet/udp: listening UDP on 127.0.0.1:10808
+2026/09/16 12:11:11.825070 [Warning] core: Xray 26.3.27 started
+2026/09/16 12:11:15.826147 [Warning] proxy/wireguard: Using gVisor TUN. Kernel TUN is not supported on your OS, or your permission is insufficient.
+2026/09/16 12:11:15.826521 [Debug] UAPI: Updating private key
+2026/09/16 12:11:15.826526 [Debug] Routine: encryption worker 10 - started
+2026/09/16 12:11:15.826527 [Debug] Routine: decryption worker 6 - started
+2026/09/16 12:11:15.826528 [Debug] Routine: handshake worker 6 - started
+2026/09/16 12:11:15.826530 [Debug] Routine: encryption worker 7 - started
+2026/09/16 12:11:15.826531 [Debug] Routine: encryption worker 1 - started
+2026/09/16 12:11:15.826532 [Debug] Routine: decryption worker 1 - started
+2026/09/16 12:11:15.826533 [Debug] Routine: decryption worker 7 - started
+2026/09/16 12:11:15.826534 [Debug] Routine: handshake worker 1 - started
+2026/09/16 12:11:15.826535 [Debug] Routine: handshake worker 7 - started
+2026/09/16 12:11:15.826537 [Debug] Routine: encryption worker 2 - started
+2026/09/16 12:11:15.826538 [Debug] Routine: encryption worker 8 - started
+2026/09/16 12:11:15.826539 [Debug] Routine: decryption worker 2 - started
+2026/09/16 12:11:15.826541 [Debug] Routine: handshake worker 2 - started
+2026/09/16 12:11:15.826542 [Debug] Routine: decryption worker 8 - started
+2026/09/16 12:11:15.826543 [Debug] Routine: handshake worker 11 - started
+2026/09/16 12:11:15.826544 [Debug] Routine: encryption worker 3 - started
+2026/09/16 12:11:15.826545 [Debug] Routine: handshake worker 8 - started
+2026/09/16 12:11:15.826546 [Debug] Routine: handshake worker 10 - started
+2026/09/16 12:11:15.826548 [Debug] Routine: encryption worker 11 - started
+2026/09/16 12:11:15.826549 [Debug] Routine: encryption worker 9 - started
+2026/09/16 12:11:15.826550 [Debug] Routine: decryption worker 3 - started
+2026/09/16 12:11:15.826551 [Debug] Routine: decryption worker 11 - started
+2026/09/16 12:11:15.826552 [Debug] Routine: handshake worker 3 - started
+2026/09/16 12:11:15.826554 [Debug] Routine: decryption worker 9 - started
+2026/09/16 12:11:15.826555 [Debug] Routine: handshake worker 12 - started
+2026/09/16 12:11:15.826556 [Debug] Routine: handshake worker 9 - started
+2026/09/16 12:11:15.826557 [Debug] Routine: encryption worker 4 - started
+2026/09/16 12:11:15.826558 [Debug] Routine: decryption worker 10 - started
+2026/09/16 12:11:15.826559 [Debug] Routine: encryption worker 12 - started
+2026/09/16 12:11:15.826561 [Debug] peer(bmXO…fgyo) - UAPI: Created
+2026/09/16 12:11:15.826570 [Debug] peer(bmXO…fgyo) - UAPI: Updating endpoint
+2026/09/16 12:11:15.826571 [Debug] Routine: encryption worker 5 - started
+2026/09/16 12:11:15.826572 [Debug] peer(bmXO…fgyo) - UAPI: Adding allowedip
+2026/09/16 12:11:15.826574 [Debug] Routine: decryption worker 12 - started
+2026/09/16 12:11:15.826575 [Debug] Routine: decryption worker 5 - started
+2026/09/16 12:11:15.826581 [Debug] peer(bmXO…fgyo) - UAPI: Adding allowedip
+2026/09/16 12:11:15.826582 [Debug] Routine: handshake worker 4 - started
+2026/09/16 12:11:15.826583 [Debug] Routine: decryption worker 4 - started
+2026/09/16 12:11:15.826585 [Debug] peer(bmXO…fgyo) - UAPI: Updating persistent keepalive interval
+2026/09/16 12:11:15.826586 [Debug] Routine: event worker - started
+2026/09/16 12:11:15.826587 [Debug] Routine: handshake worker 5 - started
+2026/09/16 12:11:15.826588 [Debug] Interface up requested
+2026/09/16 12:11:15.826590 [Debug] Routine: encryption worker 6 - started
+2026/09/16 12:11:15.826591 [Debug] proxy/wireguard: bind closed
+2026/09/16 12:11:15.826593 [Debug] Routine: TUN reader - started
+2026/09/16 12:11:15.826594 [Debug] proxy/wireguard: bind opened
+2026/09/16 12:11:15.826596 [Debug] peer(bmXO…fgyo) - Starting
+2026/09/16 12:11:15.826597 [Debug] peer(bmXO…fgyo) - Sending keepalive packet
+2026/09/16 12:11:15.826599 [Debug] peer(bmXO…fgyo) - Sending handshake initiation
+2026/09/16 12:11:15.826600 [Debug] Routine: receive incoming Open - started
+2026/09/16 12:11:15.826601 [Debug] Routine: receive incoming Open - started
+2026/09/16 12:11:15.826602 [Debug] Routine: receive incoming Open - started
+2026/09/16 12:11:15.826603 [Debug] Routine: receive incoming Open - started
+2026/09/16 12:11:15.826605 [Debug] Routine: receive incoming Open - started
+2026/09/16 12:11:15.826606 [Debug] Routine: receive incoming Open - started
+2026/09/16 12:11:15.826607 [Debug] Routine: receive incoming Open - started
+2026/09/16 12:11:15.826608 [Debug] Routine: receive incoming Open - started
+2026/09/16 12:11:15.826609 [Debug] Routine: receive incoming Open - started
+2026/09/16 12:11:15.826610 [Debug] Routine: receive incoming Open - started
+2026/09/16 12:11:15.826612 [Debug] peer(bmXO…fgyo) - Routine: sequential sender - started
+2026/09/16 12:11:15.826613 [Debug] Routine: receive incoming Open - started
+2026/09/16 12:11:15.826614 [Debug] Routine: receive incoming Open - started
+2026/09/16 12:11:15.826630 [Debug] peer(bmXO…fgyo) - Routine: sequential receiver - started
+2026/09/16 12:11:15.826728 [Debug] Interface state was Down, requested Up, now Up
+2026/09/16 12:11:15.920795 [Debug] peer(bmXO…fgyo) - Received handshake response
+2026/09/16 12:11:31.222394 [Debug] peer(bmXO…fgyo) - Retrying handshake because we stopped hearing back after 15 seconds
+2026/09/16 12:11:31.222406 [Debug] peer(bmXO…fgyo) - Sending handshake initiation
+2026/09/16 12:11:31.869448 [Debug] app/log: Logger closing

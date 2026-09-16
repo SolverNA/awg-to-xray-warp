@@ -1,0 +1,79 @@
+# NOTE: log filtered for publication — only Xray startup and WireGuard transport/handshake events are kept.
+# Variant 3.2: QUIC I1 из ok-500 + 8xrand23-911    | 162.159.192.1:2408 | MTU 1280 | IFkdR
+Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 linux/amd64)
+A unified platform for anti-censorship.
+2026/09/16 14:36:53.700975 [Info] infra/conf/serial: Reading config: &{Name:/tmp/rtm-32.json Format:json}
+2026/09/16 14:36:53.702743 [Debug] app/log: Logger started
+2026/09/16 14:36:53.707460 [Info] transport/internet/tcp: listening TCP on 127.0.0.1:10808
+2026/09/16 14:36:53.707524 [Info] transport/internet/udp: listening UDP on 127.0.0.1:10808
+2026/09/16 14:36:53.707650 [Warning] core: Xray 26.3.27 started
+2026/09/16 14:36:57.709573 [Warning] proxy/wireguard: Using gVisor TUN. Kernel TUN is not supported on your OS, or your permission is insufficient.
+2026/09/16 14:36:57.710199 [Debug] UAPI: Updating private key
+2026/09/16 14:36:57.710228 [Debug] Routine: decryption worker 6 - started
+2026/09/16 14:36:57.710230 [Debug] Routine: handshake worker 2 - started
+2026/09/16 14:36:57.710232 [Debug] Routine: encryption worker 1 - started
+2026/09/16 14:36:57.710233 [Debug] Routine: encryption worker 3 - started
+2026/09/16 14:36:57.710235 [Debug] Routine: decryption worker 1 - started
+2026/09/16 14:36:57.710236 [Debug] Routine: decryption worker 3 - started
+2026/09/16 14:36:57.710237 [Debug] Routine: decryption worker 2 - started
+2026/09/16 14:36:57.710238 [Debug] Routine: handshake worker 1 - started
+2026/09/16 14:36:57.710240 [Debug] Routine: handshake worker 3 - started
+2026/09/16 14:36:57.710241 [Debug] Routine: encryption worker 10 - started
+2026/09/16 14:36:57.710242 [Debug] Routine: encryption worker 5 - started
+2026/09/16 14:36:57.710244 [Debug] Routine: handshake worker 6 - started
+2026/09/16 14:36:57.710245 [Debug] Routine: decryption worker 5 - started
+2026/09/16 14:36:57.710247 [Debug] Routine: encryption worker 4 - started
+2026/09/16 14:36:57.710248 [Debug] Routine: encryption worker 7 - started
+2026/09/16 14:36:57.710249 [Debug] Routine: handshake worker 5 - started
+2026/09/16 14:36:57.710250 [Debug] Routine: decryption worker 4 - started
+2026/09/16 14:36:57.710252 [Debug] Routine: decryption worker 7 - started
+2026/09/16 14:36:57.710253 [Debug] Routine: encryption worker 6 - started
+2026/09/16 14:36:57.710254 [Debug] Routine: handshake worker 4 - started
+2026/09/16 14:36:57.710255 [Debug] Routine: handshake worker 7 - started
+2026/09/16 14:36:57.710256 [Debug] Routine: handshake worker 8 - started
+2026/09/16 14:36:57.710257 [Debug] Routine: encryption worker 8 - started
+2026/09/16 14:36:57.710259 [Debug] Routine: encryption worker 9 - started
+2026/09/16 14:36:57.710260 [Debug] Routine: decryption worker 8 - started
+2026/09/16 14:36:57.710261 [Debug] Routine: handshake worker 9 - started
+2026/09/16 14:36:57.710268 [Debug] Routine: decryption worker 9 - started
+2026/09/16 14:36:57.710269 [Debug] Routine: handshake worker 10 - started
+2026/09/16 14:36:57.710271 [Debug] Routine: handshake worker 11 - started
+2026/09/16 14:36:57.710272 [Debug] Routine: encryption worker 11 - started
+2026/09/16 14:36:57.710274 [Debug] Routine: handshake worker 12 - started
+2026/09/16 14:36:57.710275 [Debug] Routine: decryption worker 11 - started
+2026/09/16 14:36:57.710276 [Debug] Routine: encryption worker 12 - started
+2026/09/16 14:36:57.710277 [Debug] Routine: decryption worker 12 - started
+2026/09/16 14:36:57.710279 [Debug] Routine: event worker - started
+2026/09/16 14:36:57.710280 [Debug] Interface up requested
+2026/09/16 14:36:57.710286 [Debug] Routine: decryption worker 10 - started
+2026/09/16 14:36:57.710287 [Debug] Routine: encryption worker 2 - started
+2026/09/16 14:36:57.710289 [Debug] peer(bmXO…fgyo) - UAPI: Created
+2026/09/16 14:36:57.710290 [Debug] peer(bmXO…fgyo) - UAPI: Updating endpoint
+2026/09/16 14:36:57.710295 [Debug] Routine: TUN reader - started
+2026/09/16 14:36:57.710297 [Debug] proxy/wireguard: bind closed
+2026/09/16 14:36:57.710298 [Debug] peer(bmXO…fgyo) - UAPI: Adding allowedip
+2026/09/16 14:36:57.710300 [Debug] proxy/wireguard: bind opened
+2026/09/16 14:36:57.710301 [Debug] peer(bmXO…fgyo) - UAPI: Adding allowedip
+2026/09/16 14:36:57.710306 [Debug] peer(bmXO…fgyo) - UAPI: Updating persistent keepalive interval
+2026/09/16 14:36:57.710309 [Debug] peer(bmXO…fgyo) - Starting
+2026/09/16 14:36:57.710310 [Debug] Routine: receive incoming Open - started
+2026/09/16 14:36:57.710311 [Debug] Routine: receive incoming Open - started
+2026/09/16 14:36:57.710312 [Debug] peer(bmXO…fgyo) - Sending keepalive packet
+2026/09/16 14:36:57.710314 [Debug] peer(bmXO…fgyo) - Sending handshake initiation
+2026/09/16 14:36:57.710315 [Debug] Routine: receive incoming Open - started
+2026/09/16 14:36:57.710317 [Debug] peer(bmXO…fgyo) - Routine: sequential sender - started
+2026/09/16 14:36:57.710318 [Debug] Routine: receive incoming Open - started
+2026/09/16 14:36:57.710319 [Debug] Routine: receive incoming Open - started
+2026/09/16 14:36:57.710320 [Debug] Routine: receive incoming Open - started
+2026/09/16 14:36:57.710321 [Debug] Routine: receive incoming Open - started
+2026/09/16 14:36:57.710322 [Debug] Routine: receive incoming Open - started
+2026/09/16 14:36:57.710323 [Debug] peer(bmXO…fgyo) - Routine: sequential receiver - started
+2026/09/16 14:36:57.710324 [Debug] Routine: receive incoming Open - started
+2026/09/16 14:36:57.710325 [Debug] Routine: receive incoming Open - started
+2026/09/16 14:36:57.710326 [Debug] Routine: receive incoming Open - started
+2026/09/16 14:36:57.710328 [Debug] Routine: receive incoming Open - started
+2026/09/16 14:36:57.710583 [Debug] Interface state was Down, requested Up, now Up
+2026/09/16 14:37:02.711033 [Debug] peer(bmXO…fgyo) - Sending handshake initiation
+2026/09/16 14:37:07.712113 [Debug] peer(bmXO…fgyo) - Sending handshake initiation
+2026/09/16 14:37:12.715214 [Debug] peer(bmXO…fgyo) - Sending handshake initiation
+2026/09/16 14:37:13.757286 [Debug] app/log: Logger closing

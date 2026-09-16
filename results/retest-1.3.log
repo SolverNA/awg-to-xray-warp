@@ -1,0 +1,79 @@
+# NOTE: log filtered for publication — only Xray startup and WireGuard transport/handshake events are kept.
+# Variant 1.3: чистый WG, БЕЗ обфускации           | 8.34.146.7:1180    | MTU 1280 | IFkdR
+Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 linux/amd64)
+A unified platform for anti-censorship.
+2026/09/16 14:35:45.080299 [Info] infra/conf/serial: Reading config: &{Name:/tmp/rtm-13.json Format:json}
+2026/09/16 14:35:45.081488 [Debug] app/log: Logger started
+2026/09/16 14:35:45.085300 [Info] transport/internet/tcp: listening TCP on 127.0.0.1:10808
+2026/09/16 14:35:45.085367 [Info] transport/internet/udp: listening UDP on 127.0.0.1:10808
+2026/09/16 14:35:45.085452 [Warning] core: Xray 26.3.27 started
+2026/09/16 14:35:49.089124 [Warning] proxy/wireguard: Using gVisor TUN. Kernel TUN is not supported on your OS, or your permission is insufficient.
+2026/09/16 14:35:49.089600 [Debug] UAPI: Updating private key
+2026/09/16 14:35:49.089611 [Debug] Routine: encryption worker 1 - started
+2026/09/16 14:35:49.089614 [Debug] Routine: decryption worker 10 - started
+2026/09/16 14:35:49.089617 [Debug] Routine: handshake worker 7 - started
+2026/09/16 14:35:49.089619 [Debug] Routine: encryption worker 8 - started
+2026/09/16 14:35:49.089622 [Debug] Routine: decryption worker 7 - started
+2026/09/16 14:35:49.089624 [Debug] Routine: decryption worker 8 - started
+2026/09/16 14:35:49.089627 [Debug] Routine: handshake worker 8 - started
+2026/09/16 14:35:49.089629 [Debug] Routine: decryption worker 1 - started
+2026/09/16 14:35:49.089632 [Debug] Routine: encryption worker 9 - started
+2026/09/16 14:35:49.089634 [Debug] Routine: handshake worker 1 - started
+2026/09/16 14:35:49.089636 [Debug] Routine: encryption worker 2 - started
+2026/09/16 14:35:49.089638 [Debug] Routine: decryption worker 2 - started
+2026/09/16 14:35:49.089641 [Debug] Routine: handshake worker 2 - started
+2026/09/16 14:35:49.089644 [Debug] Routine: decryption worker 9 - started
+2026/09/16 14:35:49.089646 [Debug] Routine: handshake worker 9 - started
+2026/09/16 14:35:49.089648 [Debug] Routine: encryption worker 12 - started
+2026/09/16 14:35:49.089651 [Debug] Routine: encryption worker 3 - started
+2026/09/16 14:35:49.089653 [Debug] Routine: encryption worker 10 - started
+2026/09/16 14:35:49.089655 [Debug] Routine: handshake worker 10 - started
+2026/09/16 14:35:49.089657 [Debug] Routine: decryption worker 3 - started
+2026/09/16 14:35:49.089660 [Debug] Routine: decryption worker 11 - started
+2026/09/16 14:35:49.089662 [Debug] Routine: handshake worker 3 - started
+2026/09/16 14:35:49.089664 [Debug] Routine: handshake worker 11 - started
+2026/09/16 14:35:49.089667 [Debug] Routine: encryption worker 4 - started
+2026/09/16 14:35:49.089669 [Debug] Routine: encryption worker 11 - started
+2026/09/16 14:35:49.089671 [Debug] Routine: handshake worker 5 - started
+2026/09/16 14:35:49.089673 [Debug] Routine: encryption worker 6 - started
+2026/09/16 14:35:49.089676 [Debug] Routine: handshake worker 12 - started
+2026/09/16 14:35:49.089982 [Debug] Routine: decryption worker 12 - started
+2026/09/16 14:35:49.089987 [Debug] Routine: decryption worker 6 - started
+2026/09/16 14:35:49.089989 [Debug] Routine: decryption worker 4 - started
+2026/09/16 14:35:49.089997 [Debug] Routine: encryption worker 5 - started
+2026/09/16 14:35:49.090005 [Debug] Routine: handshake worker 6 - started
+2026/09/16 14:35:49.090013 [Debug] Routine: decryption worker 5 - started
+2026/09/16 14:35:49.090019 [Debug] Routine: handshake worker 4 - started
+2026/09/16 14:35:49.090020 [Debug] Routine: encryption worker 7 - started
+2026/09/16 14:35:49.090037 [Debug] Routine: event worker - started
+2026/09/16 14:35:49.090039 [Debug] Interface up requested
+2026/09/16 14:35:49.090041 [Debug] Routine: TUN reader - started
+2026/09/16 14:35:49.090043 [Debug] proxy/wireguard: bind closed
+2026/09/16 14:35:49.090045 [Debug] proxy/wireguard: bind opened
+2026/09/16 14:35:49.090048 [Debug] Routine: receive incoming Open - started
+2026/09/16 14:35:49.090049 [Debug] Routine: receive incoming Open - started
+2026/09/16 14:35:49.090051 [Debug] Routine: receive incoming Open - started
+2026/09/16 14:35:49.090052 [Debug] Routine: receive incoming Open - started
+2026/09/16 14:35:49.090053 [Debug] Routine: receive incoming Open - started
+2026/09/16 14:35:49.090055 [Debug] Routine: receive incoming Open - started
+2026/09/16 14:35:49.090056 [Debug] Routine: receive incoming Open - started
+2026/09/16 14:35:49.090057 [Debug] Routine: receive incoming Open - started
+2026/09/16 14:35:49.090059 [Debug] Routine: receive incoming Open - started
+2026/09/16 14:35:49.090060 [Debug] Routine: receive incoming Open - started
+2026/09/16 14:35:49.090061 [Debug] Routine: receive incoming Open - started
+2026/09/16 14:35:49.090063 [Debug] Routine: receive incoming Open - started
+2026/09/16 14:35:49.090064 [Debug] peer(bmXO…fgyo) - UAPI: Created
+2026/09/16 14:35:49.090065 [Debug] peer(bmXO…fgyo) - UAPI: Updating endpoint
+2026/09/16 14:35:49.090067 [Debug] peer(bmXO…fgyo) - UAPI: Adding allowedip
+2026/09/16 14:35:49.090068 [Debug] peer(bmXO…fgyo) - UAPI: Adding allowedip
+2026/09/16 14:35:49.090069 [Debug] peer(bmXO…fgyo) - UAPI: Updating persistent keepalive interval
+2026/09/16 14:35:49.090071 [Debug] peer(bmXO…fgyo) - Starting
+2026/09/16 14:35:49.090094 [Debug] peer(bmXO…fgyo) - Routine: sequential sender - started
+2026/09/16 14:35:49.090112 [Debug] peer(bmXO…fgyo) - Sending keepalive packet
+2026/09/16 14:35:49.090114 [Debug] peer(bmXO…fgyo) - Sending handshake initiation
+2026/09/16 14:35:49.090157 [Debug] peer(bmXO…fgyo) - Routine: sequential receiver - started
+2026/09/16 14:35:49.090449 [Debug] Interface state was Down, requested Up, now Up
+2026/09/16 14:35:49.337246 [Debug] peer(bmXO…fgyo) - Received handshake response
+2026/09/16 14:36:04.541629 [Debug] peer(bmXO…fgyo) - Retrying handshake because we stopped hearing back after 15 seconds
+2026/09/16 14:36:04.541642 [Debug] peer(bmXO…fgyo) - Sending handshake initiation
+2026/09/16 14:36:05.129628 [Debug] app/log: Logger closing
