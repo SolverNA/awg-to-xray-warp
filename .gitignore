@@ -1,5 +1,16 @@
+# временные файлы прогонов
 *.pid
 *.tmp
 *.rawlog
 nohup.out
 __pycache__/
+
+# конфиги, собранные локально генератором: у каждого свои креды и свой I1,
+# в репозиторий попадают только эталонные warp-xray.json / warp-xray-client.json
+/my-warp*.json
+/warp-client*.json
+
+# архивные комплекты test-profiles.sh (ротация прошлого прогона того же тега);
+# коммитятся осознанно, если нужны, а не по умолчанию
+results/profiles-*-20*.txt
+results/profiles-*-20*.tsv
