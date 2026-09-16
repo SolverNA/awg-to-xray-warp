@@ -1,2 +1,4 @@
 *.pid
 *.tmp
+*.rawlog
+nohup.out
