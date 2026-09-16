@@ -11,28 +11,28 @@
 # Матрица должна это ПРОВЕРИТЬ, а не принять на веру.
 #
 # Запуск (VPN пользователя выключить, сеть переключить на Мегафон):
-#     ./test-megafon.sh
+#     ./tests/test-megafon.sh
 # Длительность: ~5-6 мин матрица (10 вариантов) + ~2 мин фаза стабильности.
-# Всё пишется в stdout и в ./megafon-report.txt (перезаписывается при каждом запуске).
+# Всё пишется в stdout и в ./results/megafon-report.txt (перезаписывается при каждом запуске).
 # Без sudo. Маршруты / nft / iptables / ip rule НЕ трогаются.
 #
 # Креды, hex-пакеты и endpoint'ы в тексте скрипта НЕ хардкодятся — читаются программно
-# (python3) из ./warp-xray.json, ./old-warp-xray.json и ./awg-samples/*.conf.
+# (python3) из ./warp-xray.json, ./legacy/old-warp-xray.json и ./awg-samples/*.conf.
 
 set -u
 
-cd "$(dirname "$(readlink -f "$0")")" || exit 1
+cd "$(dirname "$(readlink -f "$0")")/.." || exit 1   # корень репозитория: скрипты лежат в tests/, данные и конфиги — выше
 
 # --- пути, порты, параметры -------------------------------------------------
 CFG_NEW="./warp-xray.json"      # креды p1Fqp + статичные SIP-пакеты + 4 x rand 40-70
-CFG_OLD="./old-warp-xray.json"  # профиль 8 x rand 23-911
+CFG_OLD="./legacy/old-warp-xray.json"  # профиль 8 x rand 23-911
 AWGDIR="./awg-samples"          # QUIC-пакеты I1, endpoint'ы, вторые креды (IFkdR)
 
 SCRATCH="${SCRATCH_DIR:-${TMPDIR:-/tmp}}"
 GEN="$SCRATCH/mgf-gen.py"
 STATEDIR="$SCRATCH/mgf-state"
 
-REPORT="./megafon-report.txt"
+REPORT="./results/megafon-report.txt"
 PIDFILE="$SCRATCH/mgf-xray.pid"
 
 SOCKS_HOST="127.0.0.1"
@@ -58,9 +58,9 @@ VARIANTS="1 2 3 4 5 6 7 8 9 10"
 # 'Handshake did not complete' xray пишет ТОЛЬКО на debug (device-логгер wireguard-go
 # завёрнут в LogDebug). На info счётчики хендшейков в таблице будут нулевыми, и
 # отличить «UDP до endpoint режется» от «рвётся уже установленная сессия» будет нельзя.
-# Если эта диагностика нужна — запускай:  ./test-megafon.sh --log-debug
+# Если эта диагностика нужна — запускай:  ./tests/test-megafon.sh --log-debug
 # Тогда СЫРОЙ debug-лог останется только в "$SCRATCH" (вне репозитория), а в рабочую
-# папку попадёт ./megafon-<N>.log, отфильтрованный по белому списку: старт ядра плюс
+# папку попадёт ./results/megafon-<N>.log, отфильтрованный по белому списку: старт ядра плюс
 # события wireguard, без единой строки с доменами и коннектами пользователя.
 LOGLEVEL="info"
 FILTER_RE='^#|^Xray [0-9]|^A unified platform|\] core: |\] app/log: |\] infra/conf/serial: |\] transport/internet/(tcp|udp): listening|\] proxy/wireguard: |\] (peer\(|Routine:|UAPI:|Device|Interface|Binding|Bind|Starting|Stopping|Sending|Receiving|Received|Handshake|Invalid|Failed|Retrying|Obtained|Zeroing|Resetting|Adding|Removing|Creating)'
@@ -162,7 +162,7 @@ bare "Источники    : $CFG_NEW (креды p1Fqp + SIP-пакеты + ra
 bare "               $CFG_OLD (профиль 8 x rand 23-911)"
 bare "               $AWGDIR/*.conf (QUIC I1, endpoint'ы, вторые креды IFkdR)"
 bare "Отчёт        : $REPORT"
-bare "Логи         : ./megafon-<N>.log (отфильтрованы), сырые — в $SCRATCH"
+bare "Логи         : ./results/megafon-<N>.log (отфильтрованы), сырые — в $SCRATCH"
 bare "Порт прокси  : $PORT (варианты идут последовательно, по одному инстансу)"
 if [ "$LOGLEVEL" = "debug" ]; then
   bare "loglevel     : debug (флаг --log-debug). Сырой лог только в $SCRATCH,"
@@ -173,7 +173,7 @@ else
   bare "               ВНИМАНИЕ: счётчики хендшейков будут НУЛЕВЫЕ — эти строки xray пишет"
   bare "               только на debug. Отличить 'режется UDP до endpoint' от 'рвётся уже"
   bare "               установленная сессия' в этом режиме НЕЛЬЗЯ. Нужна эта диагностика —"
-  bare "               перезапусти: ./test-megafon.sh --log-debug"
+  bare "               перезапусти: ./tests/test-megafon.sh --log-debug"
 fi
 
 for f in "$CFG_NEW" "$CFG_OLD"; do
@@ -586,7 +586,7 @@ run_variant() {
   local v="$1"
   local cfg="$SCRATCH/mgf-${v}.json"
   local raw="$SCRATCH/mgf-${v}.rawlog"
-  local pub="./megafon-${v}.log"
+  local pub="./results/megafon-${v}.log"
   local gout facts
 
   bare ""
@@ -749,11 +749,11 @@ else
     echo "# NOTE: log filtered for publication — only Xray startup and WireGuard transport/handshake events are kept."
     echo "# Stability phase, winner variant $WIN: $(desc_of "$WIN")"
     grep -E "$FILTER_RE" "$raw" 2>/dev/null
-  } > "./megafon-stability.log"
+  } > "./results/megafon-stability.log"
   bare ""
   bare "Стабильность: успешных $STAB_OK из $STAB_TOTAL"
   bare "Хендшейки за фазу 2: initiation=$S_S response=$S_R 'did not complete'=$S_I"
-  bare "Публикуемый лог фазы 2: ./megafon-stability.log"
+  bare "Публикуемый лог фазы 2: ./results/megafon-stability.log"
   if [ "$STAB_OK" = "$STAB_TOTAL" ] && [ "$STAB_TOTAL" -gt 0 ]; then
     bare "-> канал держится все ~100 с, отложенного среза не видно"
   elif [ "$STAB_OK" -gt 0 ]; then
@@ -791,7 +791,7 @@ if [ "$LOGLEVEL" != "debug" ]; then
   bare "ВАЖНО: loglevel=$LOGLEVEL, поэтому все счётчики хендшейков ниже НУЛЕВЫЕ — xray пишет"
   bare "эти строки только на debug. Выводы строятся ТОЛЬКО по статусам OK/BAD/FAIL, а фразы"
   bare "вида «по логу судить нельзя» означают именно отсутствие debug-лога, а не поломку сети."
-  bare "Нужна диагностика 'режется UDP' vs 'рвётся сессия' — перезапусти: ./test-megafon.sh --log-debug"
+  bare "Нужна диагностика 'режется UDP' vs 'рвётся сессия' — перезапусти: ./tests/test-megafon.sh --log-debug"
 fi
 
 st() { echo "${R_ST[$1]}"; }
@@ -963,7 +963,7 @@ else
   bare "OK: наших процессов 'xray run ... mgf-*' не осталось."
 fi
 bare ""
-bare "Читать: $REPORT (этот файл), ./megafon-<N>.log по вариантам, ./megafon-stability.log"
+bare "Читать: $REPORT (этот файл), ./results/megafon-<N>.log по вариантам, ./results/megafon-stability.log"
 bare "Временные конфиги и СЫРЫЕ логи: $SCRATCH/mgf-*.json, $SCRATCH/mgf-*.rawlog"
 bare "  (сырые логи в репозиторий не попадают, публиковать их не нужно)"
 log "ГОТОВО."

@@ -6,25 +6,25 @@
 # Цель — доказать, нужна ли обфускация: A должен работать, B (чистый WireGuard)
 # ожидаемо режется ТСПУ (хендшейк уходит, ответа нет).
 #
-# Запуск:  ./test-warp.sh          (в конце гасит оба инстанса)
-#          ./test-warp.sh --keep   (оставляет жить ТОЛЬКО инстанс A; B гасится всегда)
-# Всё пишется в stdout и в ./test-report.txt (перезаписывается при каждом запуске).
+# Запуск:  ./tests/test-warp.sh          (в конце гасит оба инстанса)
+#          ./tests/test-warp.sh --keep   (оставляет жить ТОЛЬКО инстанс A; B гасится всегда)
+# Всё пишется в stdout и в ./results/test-report.txt (перезаписывается при каждом запуске).
 # Без sudo, без изменения маршрутов/nft/iptables/ip rule.
 
 set -u
 
-cd "$(dirname "$(readlink -f "$0")")" || exit 1
+cd "$(dirname "$(readlink -f "$0")")/.." || exit 1   # корень репозитория: скрипты лежат в tests/, данные и конфиги — выше
 
 # --- пути и порты ----------------------------------------------------------
 CONFIG_A="./warp-xray.json"
 SCRATCH="${SCRATCH_DIR:-${TMPDIR:-/tmp}}"
 CONFIG_B="$SCRATCH/warp-noobf.json"
 
-REPORT="./test-report.txt"
-XLOG_A="./xray-A.log"
-XLOG_B="./xray-B.log"
-XPID_A="./xray-A.pid"
-XPID_B="./xray-B.pid"
+REPORT="./results/test-report.txt"
+XLOG_A="./results/xray-A.log"
+XLOG_B="./results/xray-B.log"
+XPID_A="./results/xray-A.pid"
+XPID_B="./results/xray-B.pid"
 
 SOCKS_HOST="127.0.0.1"
 PORT_A="10808"
