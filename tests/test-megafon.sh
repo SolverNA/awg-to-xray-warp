@@ -17,14 +17,14 @@
 # Без sudo. Маршруты / nft / iptables / ip rule НЕ трогаются.
 #
 # Креды, hex-пакеты и endpoint'ы в тексте скрипта НЕ хардкодятся — читаются программно
-# (python3) из ./warp-xray.json, ./legacy/old-warp-xray.json и ./awg-samples/*.conf.
+# (python3) из ./legacy/warp-xray-sip-profile.json, ./legacy/old-warp-xray.json и ./awg-samples/*.conf.
 
 set -u
 
 cd "$(dirname "$(readlink -f "$0")")/.." || exit 1   # корень репозитория: скрипты лежат в tests/, данные и конфиги — выше
 
 # --- пути, порты, параметры -------------------------------------------------
-CFG_NEW="./warp-xray.json"      # креды p1Fqp + статичные SIP-пакеты + 4 x rand 40-70
+CFG_NEW="./legacy/warp-xray-sip-profile.json"      # креды p1Fqp + статичные SIP-пакеты + 4 x rand 40-70
 CFG_OLD="./legacy/old-warp-xray.json"  # профиль 8 x rand 23-911
 AWGDIR="./awg-samples"          # QUIC-пакеты I1, endpoint'ы, вторые креды (IFkdR)
 
@@ -257,7 +257,7 @@ mkdir -p "$STATEDIR"
 cat > "$GEN" <<'PYEOF'
 #!/usr/bin/env python3
 """Генерация конфигов матрицы и разбор noise-пакетов.
-Ничего не хардкодит: креды p1Fqp и SIP-пакеты берутся из warp-xray.json, профиль
+Ничего не хардкодит: креды p1Fqp и SIP-пакеты берутся из legacy/warp-xray-sip-profile.json, профиль
 8 x rand 23-911 — из old-warp-xray.json, QUIC-пакеты I1, все endpoint'ы и вторые
 креды (IFkdR) — из awg-samples/*.conf.
 
@@ -439,16 +439,16 @@ def main():
     # --- режим: разбор образцов -------------------------------------------
     if mode == "awginfo":
         print("Креды по файлам (первые 5 символов приватного ключа + sha256[:8]):")
-        print("  %-26s: %s… / %s | peer %s… | %s"
-              % ("warp-xray.json", sk_new[:5], hashlib.sha256(sk_new.encode()).hexdigest()[:8],
+        print("  %-33s: %s… / %s | peer %s… | %s"
+              % ("legacy/warp-xray-sip-profile.json", sk_new[:5], hashlib.sha256(sk_new.encode()).hexdigest()[:8],
                  pub[:12], ", ".join(a.split("/")[0] for a in addr_new)))
         for n in SAMPLES:
             d = smp[n]
             pk = d.get("PrivateKey", "")
-            print("  %-26s: %s… / %s | peer %s… | %s%s"
+            print("  %-33s: %s… / %s | peer %s… | %s%s"
                   % (n, pk[:5], hashlib.sha256(pk.encode()).hexdigest()[:8],
                      (d.get("PublicKey") or "")[:12], d.get("Address", "?"),
-                     "   <- те же креды, что в warp-xray.json" if pk == sk_new else "   <- ДРУГАЯ регистрация"))
+                     "   <- те же креды, что в legacy/warp-xray-sip-profile.json" if pk == sk_new else "   <- ДРУГАЯ регистрация"))
         print("")
         print("Структура noise-пакетов в образцах (главная проверка гипотезы «I1 = QUIC Initial»):")
         for n in SAMPLES:

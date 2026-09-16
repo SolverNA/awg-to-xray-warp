@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # test-warp.sh — A/B тест WARP через Xray.
-#   Вариант A (обфускация)      : ./warp-xray.json как есть (wireguard + dialerProxy -> noises)
+#   Вариант A (обфускация)      : ./legacy/warp-xray-sip-profile.json как есть (wireguard + dialerProxy -> noises)
 #   Вариант B (контроль, без обф): копия A БЕЗ dialerProxy/noises, генерируется программно
 #                                  в scratchpad (креды в скрипте не хардкодятся)
 # Цель — доказать, нужна ли обфускация: A должен работать, B (чистый WireGuard)
@@ -16,7 +16,7 @@ set -u
 cd "$(dirname "$(readlink -f "$0")")/.." || exit 1   # корень репозитория: скрипты лежат в tests/, данные и конфиги — выше
 
 # --- пути и порты ----------------------------------------------------------
-CONFIG_A="./warp-xray.json"
+CONFIG_A="./legacy/warp-xray-sip-profile.json"
 SCRATCH="${SCRATCH_DIR:-${TMPDIR:-/tmp}}"
 CONFIG_B="$SCRATCH/warp-noobf.json"
 
@@ -749,7 +749,7 @@ else
     fi
   done
   # ищем только НАШИ инстансы (по именам конфигов), чужой xray/VPN не трогаем
-  LEFT="$(ps -eo pid=,args= 2>/dev/null | grep -F 'xray run' | grep -E 'warp-xray\.json|warp-noobf\.json' || true)"
+  LEFT="$(ps -eo pid=,args= 2>/dev/null | grep -F 'xray run' | grep -E 'warp-xray-sip-profile\.json|warp-noobf\.json' || true)"
   if [ -n "$LEFT" ]; then
     log "FAIL: остались наши процессы xray:"
     printf '%s\n' "$LEFT" | pipe_out

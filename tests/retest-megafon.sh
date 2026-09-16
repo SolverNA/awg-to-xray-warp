@@ -11,7 +11,7 @@
 #
 # ФАКТОР «КЛЮЧ» УЖЕ ИСКЛЮЧЁН вручную, до этого скрипта: на чистом WG без обфускации через
 # 162.159.192.1:500 (каждый ключ со своим address v6) ВСЕ ТРИ регистрации WARP отдали
-# warp=on — p1Fqp (warp-xray.json), IFkdR (awg-samples/megafon-ok-500-jc120.conf) и
+# warp=on — p1Fqp (legacy/warp-xray-sip-profile.json), IFkdR (awg-samples/megafon-ok-500-jc120.conf) и
 # WE7c0 (old-warp-xray.json). Провал вариантов 1-8 точно НЕ из-за кредов, поэтому здесь
 # на перебор ключей не тратится ни одного варианта: всё гоняется на IFkdR (единственный,
 # давший OK на самом Мегафоне), плюс ОДНА контрольная точка на p1Fqp.
@@ -32,7 +32,7 @@
 # Всё пишется в stdout и в ./results/retest-report.txt (перезаписывается при каждом запуске).
 #
 # Креды, hex-пакеты и endpoint'ы в тексте скрипта НЕ хардкодятся — читаются программно
-# (python3) из ./warp-xray.json, ./legacy/old-warp-xray.json и ./awg-samples/*.conf.
+# (python3) из ./legacy/warp-xray-sip-profile.json, ./legacy/old-warp-xray.json и ./awg-samples/*.conf.
 #
 # ЭТАП 2 ТРЕБУЕТ sudo и поднимает туннель, через который идёт ВЕСЬ трафик. Защита:
 # sudo запрашивается один раз в начале; без sudo этап 2 целиком пропускается; trap на
@@ -44,7 +44,7 @@ set -u
 cd "$(dirname "$(readlink -f "$0")")/.." || exit 1   # корень репозитория: скрипты лежат в tests/, данные и конфиги — выше
 
 # --- пути, порты, параметры -------------------------------------------------
-CFG_NEW="./warp-xray.json"      # креды p1Fqp + статичные SIP-пакеты + 4 x rand 40-70
+CFG_NEW="./legacy/warp-xray-sip-profile.json"      # креды p1Fqp + статичные SIP-пакеты + 4 x rand 40-70
 CFG_OLD="./legacy/old-warp-xray.json"  # профиль 8 x rand 23-911
 AWGDIR="./awg-samples"          # QUIC-пакеты I1, endpoint'ы, вторые креды (IFkdR)
 
@@ -385,7 +385,7 @@ mkdir -p "$STATEDIR"
 cat > "$GEN" <<'PYEOF'
 #!/usr/bin/env python3
 """Генерация конфигов перепроверочной матрицы.
-Креды p1Fqp и SIP-пакеты берутся из warp-xray.json, профиль 8 x rand 23-911 —
+Креды p1Fqp и SIP-пакеты берутся из legacy/warp-xray-sip-profile.json, профиль 8 x rand 23-911 —
 из old-warp-xray.json, QUIC-пакеты I1, endpoint'ы и вторые креды (IFkdR) —
 из awg-samples/*.conf. В тексте скрипта не хардкодится ничего.
 
@@ -576,8 +576,8 @@ def main():
         print("и передают данные (p1Fqp, IFkdR, WE7c0 — все дали warp=on на чистом WG).")
         print("")
         print("Креды, участвующие в тесте (первые 5 символов + sha256[:8]):")
-        print("  p1Fqp из warp-xray.json          : %s… / %s | peer %s… | %s"
-              % (sk_new[:5], hashlib.sha256(sk_new.encode()).hexdigest()[:8],
+        print("  p1Fqp из %-24s: %s… / %s | peer %s… | %s"
+              % ("legacy/warp-xray-sip-profile.json", sk_new[:5], hashlib.sha256(sk_new.encode()).hexdigest()[:8],
                  pub[:12], ", ".join(a.split("/")[0] for a in addr_new)))
         print("  IFkdR из %-24s: %s… / %s | peer %s… | %s"
               % (OK500, (sk_500 or "")[:5], hashlib.sha256((sk_500 or "").encode()).hexdigest()[:8],
@@ -1188,7 +1188,7 @@ bare ""
 bare "(а) ЖИВЫ ЛИ КЛЮЧИ ПО КРИТЕРИЮ ПЕРЕДАЧИ ДАННЫХ?"
 bare "    Этот вопрос ЗАКРЫТ ДО ЗАПУСКА СКРИПТА, вручную, на чистом WG без обфускации"
 bare "    через 162.159.192.1:500: все три регистрации отдали warp=on —"
-bare "      p1Fqp (warp-xray.json), IFkdR (awg-samples/megafon-ok-500-jc120.conf),"
+bare "      p1Fqp (legacy/warp-xray-sip-profile.json), IFkdR (awg-samples/megafon-ok-500-jc120.conf),"
 bare "      WE7c0 (old-warp-xray.json)."
 bare "    Поэтому фактор «ключ» из матрицы убран, и провал вариантов 1-8 прошлого прогона"
 bare "    кредами НЕ объясняется."
